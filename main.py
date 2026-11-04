@@ -3,6 +3,8 @@ import cv2
 
 from pathlib        import Path
 from src.repository import load
+from src.gui        import run
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -19,7 +21,7 @@ def main():
 
     try:
         img = load(args.image)
-        print(img)
+        run(img)
     except (OSError, ValueError, cv2.error) as e:
         print(f"Error: {e}")
         return 2
