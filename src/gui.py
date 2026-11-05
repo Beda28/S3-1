@@ -1,7 +1,13 @@
 import cv2
 
-def run(img):
-    cv2.namedWindow("Original", cv2.WINDOW_NORMAL)
-    cv2.imshow("Original", img)
+def run(img, gray, smooth):
+    for title, image in (
+        ("Original" , img),
+        ("Grayscale", gray),
+        ("Blur"     , smooth)
+    ):
+        cv2.namedWindow(title, cv2.WINDOW_NORMAL)
+        cv2.imshow(title, image)
+
     cv2.waitKey(0)
     cv2.destroyAllWindows()

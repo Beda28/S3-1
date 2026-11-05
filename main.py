@@ -1,9 +1,9 @@
 import argparse
 import cv2
 
-from pathlib        import Path
-from src.repository import load
-from src.gui        import run
+from pathlib  import Path
+from src.prep import load, prep
+from src.gui  import run
 
 
 def main():
@@ -20,8 +20,12 @@ def main():
     args = parser.parse_args()
 
     try:
-        img = load(args.image)
-        run(img)
+        img          = load(args.image)
+        gray, smooth = prep(img, args.blur)
+
+        if not args.no_gui: 
+            run(img, gray, smooth)
+
     except (OSError, ValueError, cv2.error) as e:
         print(f"Error: {e}")
         return 2
