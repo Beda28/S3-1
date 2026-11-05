@@ -1,13 +1,14 @@
 import cv2
 
-def run(img, gray, smooth, edges, result, flat):
+def run(img, gray, smooth, edges, result, flat, scan):
     for title, image in (
         ("Original" , img),
         ("Grayscale", gray),
         ("Blur"     , smooth),
         ("Edges"    , edges),
         ("Detected" , result),
-        ("Warp"     , flat)
+        ("Warp"     , flat),
+        ("Result"   , scan)
     ):
         if image is None: continue
 

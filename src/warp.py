@@ -31,3 +31,17 @@ def warp(img, points):
 
     matrix = cv2.getPerspectiveTransform(points, target)
     return cv2.warpPerspective(img, matrix, (width, height))
+
+def binary(img):
+    gray  = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    block = min(31, min(gray.shape))
+
+    if block % 2 == 0: block -= 1
+    if block < 3     : raise ValueError("Document is too small")
+
+    return cv2.adaptiveThreshold(
+        gray, 255, 
+        cv2.ADAPTIVE_THRESH_GAUSSIAN_C, 
+        cv2.THRESH_BINARY, 
+        block, 10
+    )

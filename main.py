@@ -5,7 +5,7 @@ from pathlib    import Path
 from src.prep   import load, prep
 from src.gui    import run
 from src.detect import find, draw
-from src.warp   import warp
+from src.warp   import warp, binary
 
 
 def main():
@@ -29,12 +29,15 @@ def main():
         points = find(edges)
         result = draw(img, points)
         flat   = None
+        scan   = None
 
         if points is None: print("문서 사각형을 찾지 못했습니다.")
-        else             : flat = warp(img, points)
+        else:
+            flat = warp(img, points)
+            scan = binary(flat)
 
         if not args.no_gui: 
-            run(img, gray, smooth, edges, result, flat)
+            run(img, gray, smooth, edges, result, flat, scan)
 
     except (OSError, ValueError, cv2.error) as e:
         print(f"Error: {e}")
