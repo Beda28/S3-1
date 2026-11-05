@@ -20,11 +20,12 @@ def main():
     args = parser.parse_args()
 
     try:
-        img          = load(args.image)
-        gray, smooth = prep(img, args.blur)
+        img = load(args.image)
+
+        gray, smooth, edges = prep(img, args.blur, args.low, args.high)
 
         if not args.no_gui: 
-            run(img, gray, smooth)
+            run(img, gray, smooth, edges)
 
     except (OSError, ValueError, cv2.error) as e:
         print(f"Error: {e}")

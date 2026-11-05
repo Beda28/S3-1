@@ -1,10 +1,11 @@
 import cv2
 
-def run(img, gray, smooth):
+def run(img, gray, smooth, edges):
     for title, image in (
         ("Original" , img),
         ("Grayscale", gray),
-        ("Blur"     , smooth)
+        ("Blur"     , smooth),
+        ("Edges"    , edges)
     ):
         cv2.namedWindow(title, cv2.WINDOW_NORMAL)
         cv2.imshow(title, image)
