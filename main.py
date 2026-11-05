@@ -1,9 +1,10 @@
 import argparse
 import cv2
 
-from pathlib  import Path
-from src.prep import load, prep
-from src.gui  import run
+from pathlib    import Path
+from src.prep   import load, prep
+from src.gui    import run
+from src.detect import find, draw
 
 
 def main():
@@ -24,8 +25,12 @@ def main():
 
         gray, smooth, edges = prep(img, args.blur, args.low, args.high)
 
+        points = find(edges)
+        result = draw(img, points)
+
+        if points is None: print("문서 사각형을 찾지 못했습니다.")
         if not args.no_gui: 
-            run(img, gray, smooth, edges)
+            run(img, gray, smooth, edges, result)
 
     except (OSError, ValueError, cv2.error) as e:
         print(f"Error: {e}")
