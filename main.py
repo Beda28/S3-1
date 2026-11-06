@@ -24,21 +24,24 @@ def main():
 
     try:
         img = load(args.image)
+        if not args.no_gui:
+            run(img, args.out, args.image.stem,
+                args.blur, args.low, args.high, args.ext)
+            return 0
 
         gray, smooth, edges = prep(img, args.blur, args.low, args.high)
 
         points = find(edges)
         result = draw(img, points)
-        flat   = None
-        scan   = None
 
-        if points is None: print("문서 사각형을 찾지 못했습니다.")
-        else:
-            flat = warp(img, points)
-            scan = binary(flat)
+        if points is None: 
+            print("문서 사각형을 찾지 못했습니다.")
+            return 1
+    
+        flat = warp(img, points)
+        scan = binary(flat)
 
-        if args.no_gui: save(flat, scan, args.out, args.image.stem, args.ext)
-        else          : run (img, gray, smooth, edges, result, flat, scan, args.out, args.image.stem, args.ext)
+        save(flat, scan, args.out, args.image.stem, args.ext)
 
         return 0 if points is not None else 1
 
