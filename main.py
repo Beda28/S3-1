@@ -6,6 +6,7 @@ from src.prep   import load, prep
 from src.gui    import run
 from src.detect import find, draw
 from src.warp   import warp, binary
+from src.save   import save
 
 
 def main():
@@ -36,8 +37,10 @@ def main():
             flat = warp(img, points)
             scan = binary(flat)
 
-        if not args.no_gui: 
-            run(img, gray, smooth, edges, result, flat, scan)
+        if args.no_gui: save(flat, scan, args.out, args.image.stem, args.ext)
+        else          : run (img, gray, smooth, edges, result, flat, scan, args.out, args.image.stem, args.ext)
+
+        return 0 if points is not None else 1
 
     except (OSError, ValueError, cv2.error) as e:
         print(f"Error: {e}")
